@@ -46,6 +46,11 @@ code for that part, and how to unpack it if necessary.
     by the `source` keyword into `parts/<part-name>/src/` but it will only
     copy the specified subdirectory into `parts/<part-name>/build/`
 
+  - `source-checksum`: `<algorithm>/<digest>`
+
+    Snapcraft will verify that the source downloaded matches the checksum
+    provided, and halt the build with an error if not.
+
 Note that plugins might well define their own semantics for the `source`
 keywords, because they handle specific build systems, and many languages
 have their own built-in packaging systems (think CPAN, PyPI, NPM). In those
