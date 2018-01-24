@@ -96,7 +96,7 @@ Now that the snap has been built, we can push and release it however we like (we
 
 ## Conclusion
 
-That's all, folks. Building and pushing snaps from your CI is as simple as exporting a login to use, building the snap, logging in with the exported login, and pushing the built snap.
+Building and pushing snaps from your CI is as simple as exporting a login to use, building the snap, logging in with the exported login, and pushing the built snap.
 
 The astute reader might notice that one can export a login that can be used for other purposes as well. For example, perhaps one has a CI system that runs a suite of tests and automatically promotes a snap that passes the test from edge to beta. One can export a login with capabilities that allow only this and no more.
 
