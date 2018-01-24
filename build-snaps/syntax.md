@@ -205,7 +205,29 @@ upgrade paths. For example, `0` is epoch 0; `1*` is the upgrade path from 0 to
 
 The architectures on which this snap runs. This defaults to the host architecture unless `--target-arch` is specified, in which case it defaults to the target architecture. One may specify multiple architectures if that's supported (for example, a 32-bit snap might run on both i386 and amd64 using `[amd64, i386]`, or a snap that is shell-only might run on all architectures, using `all`).
 
-* Type: list of strings
+* Type: list
+* Example:
+
+      architectures: [amd64, i386]
+
+As in the example, one may simply specify architectures in a flat list, in which case any version of this snap built on any architecture will end up stating that it runs on that set of architectures.
+
+If the architectures on which this snap runs needs to depend on the build environment, this keyword supports Snapcraft's [advanced grammar](#advanced-grammar). For example, say the snap only runs on i386 and amd64 if it's built on i386, but to otherwise use the host architecture, use:
+
+    - on i386: [amd64, i386]
+
+Building on this, perhaps this snap could also run on both armhf and arm64 if built on armhf:
+
+    - on i386: [amd64, i386]
+    - on armhf: [armhf, arm64]
+
+Perhaps this snap doesn't build on any architecture other than armhf. You can indicate that with the following:
+
+    - on armhf: [armhf]
+    - else fail
+
+In this case, Snapcraft will error out whenever one tries to build this snap on anything other than armhf.
+
 
 ### apps
 
