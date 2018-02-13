@@ -203,30 +203,33 @@ upgrade paths. For example, `0` is epoch 0; `1*` is the upgrade path from 0 to
 
 ### architectures
 
-The architectures on which this snap runs. This defaults to the host architecture unless `--target-arch` is specified, in which case it defaults to the target architecture. One may specify multiple architectures if that's supported (for example, a 32-bit snap might run on both i386 and amd64 using `[amd64, i386]`, or a snap that is shell-only might run on all architectures, using `all`).
+A mapping of build architecture to run architecture(s).
 
-* Type: list
+* Type: object
 * Example:
 
-      architectures: [amd64, i386]
+      architectures:
+        i386:
+          runs-on: [amd64, i386]
 
-As in the example, one may simply specify architectures in a flat list, in which case any version of this snap built on any architecture will end up stating that it runs on that set of architectures.
+By default, Snapcraft will build a snap that claims that it runs on the architecture of the build environment. However, in the example above, if running on an i386 host, Snapcraft will build a snap that claims it runs on both amd64 and i386.
 
-If the architectures on which this snap runs needs to depend on the build environment, this keyword supports Snapcraft's [advanced grammar](#advanced-grammar). For example, say the snap only runs on i386 and amd64 if it's built on i386, but to otherwise use the host architecture, use:
+In addition, build.snapcraft.io will use this mapping to determine the architectures to use in order to build this snap. One could request that the snap only be built on amd64 and i386 (not e.g. armhf) by simply specifying:
 
-    - on i386: [amd64, i386]
+    architectures:
+      amd64:
+        runs-on: [amd64]
+      i386:
+        runs-on: [i386]
 
-Building on this, perhaps this snap could also run on both armhf and arm64 if built on armhf:
+By default, build.snapcraft.io will consider each snap built from the same commit to be part of a build set, where either each build must succeed before being any of them are released, or the entire set is considered to have failed. Perhaps one of these architectures is undergoing some work, and you don't want to hold back releases for other architectures. You can mark that one as optional, and a build failure won't cause the entire build set to fail:
 
-    - on i386: [amd64, i386]
-    - on armhf: [armhf, arm64]
-
-Perhaps this snap doesn't build on any architecture other than armhf. You can indicate that with the following:
-
-    - on armhf: [armhf]
-    - else fail
-
-In this case, Snapcraft will error out whenever one tries to build this snap on anything other than armhf.
+    architectures:
+      i386:
+        runs-on: [amd64, i386]
+      armhf:
+        runs-on: [armhf]
+        optional: true
 
 
 ### apps
