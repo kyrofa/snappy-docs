@@ -212,7 +212,11 @@ A mapping of build architecture to run architecture(s).
         i386:
           runs-on: [amd64, i386]
 
-By default, Snapcraft will build a snap that claims that it runs on the architecture of the build environment. However, in the example above, if running on an i386 host, Snapcraft will build a snap that claims it runs on both amd64 and i386.
+By default, Snapcraft will build a snap that claims that it runs on the architecture of the build environment. However, in the example above, if running on an i386 host, Snapcraft will build a snap that claims it runs on both amd64 and i386. If the snap was e.g. shell-only, it might run on all architectures, which can be denoted using `all`:
+
+    architectures:
+      i386:
+        runs-on: [all]
 
 In addition, build.snapcraft.io will use this mapping to determine the architectures to use in order to build this snap. One could request that the snap only be built on amd64 and i386 (not e.g. armhf) by simply specifying:
 
